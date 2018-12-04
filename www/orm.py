@@ -25,7 +25,7 @@ async def create_pool(loop, **kw):
 		db = kw['database'],
 		charset = kw.get('charset', 'utf8'),
 		autocommit = kw.get('autocommit', True),
-		maxsize = kw.get('maxsize', 10)
+		maxsize = kw.get('maxsize', 10),
 		minsize = kw.get('minsize', 1),
 		loop = loop
 	)
@@ -82,8 +82,8 @@ class Field(object):
 		return '<%s, %s : %s>' % (self.__class__.__name__, self.column_type, self.name)
 
 class StringField(Field):
-	def __init__(self, name = None, primary_key = False, default = None, ddl = 'varchar(300)'):
-		super.__init__(name, ddl, primary_key, default)
+	def __init__(self, name = None, primary_key = False, default = None, ddl = 'varchar(200)'):
+		super().__init__(name, ddl, primary_key, default)
 
 class ModelMetaclass(type):
 	def __new__(cls, name, bases, attrs):
@@ -96,7 +96,7 @@ class ModelMetaclass(type):
 		primaryKey = None
 		for k, v in attrs.items():
 			if isinstance(v, Field):
-				logging.info(' found mapping: % ==> %s' % (k, v))
+				logging.info(' found mapping: %s ==> %s' % (k, v))
 				mappings[k] = v
 				if v.primary_key:
 					if primaryKey:
@@ -157,3 +157,10 @@ class Model(dict, metaclass=ModelMetaclass):
 		if len(rs) == 0:
 			return None
 		return cls(**rs[0])
+
+	async def save(self):
+		args = list(map(self.getValueOrDefault, self.__fields__))
+		args.append(self.getValueOrDefault(self.__primary_key__))
+		rows = await execute(self.__insert__, args)
+		if rows != 1:
+			logging.warn('failed to insert record: affected rows: %s' % rows)
