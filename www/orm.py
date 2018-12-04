@@ -71,7 +71,7 @@ class Field(object):
 		return '<%s, %s : %s>' % (self.__class__.__name__, self.column_type, self.name)
 
 class StringField(Field):
-	def __init__(self, name = None, primary_key = False, default = None, ddl = 'varchar(300'):
+	def __init__(self, name = None, primary_key = False, default = None, ddl = 'varchar(300)'):
 		super.__init__(name, ddl, primary_key, default)
 
 class ModelMetaclass(type):
