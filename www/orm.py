@@ -30,6 +30,12 @@ async def create_pool(loop, **kw):
 		loop = loop
 	)
 
+async def destroy_pool():
+	global __pool
+	if __pool is not None:
+		__pool.close()
+		await __pool.wait_closed()
+
 async def select(sql, args, size = None):
 	log(sql, args)
 	global __pool
@@ -60,6 +66,11 @@ async def execute(sql, args, autocommit=True):
 			raise
 		return affected
 
+def create_args_string(num):
+	L = []
+	for n in range(num):
+		L.append('?')
+	return ', '.join(L)
 
 class Field(object):
 	def __init__(self, name, column_type, primary_key, default):
