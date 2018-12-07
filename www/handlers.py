@@ -15,8 +15,8 @@ from models import ParkSettings, next_id
 
 @get('/')
 async def index(request):
-	configs = await ParkSettings.findByField('parkCode', '20000002')
+	config = await ParkSettings.findByField('parkCode', '20000002')
 	return {
 		'__template__': 'test.html',
-		'configs': configs
+		'config': config
 	}
