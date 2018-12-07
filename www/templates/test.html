@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Test Park config</title>
+</head>
+<body>
+	<h1>config item</h1>
+	{% for item in configs %}
+	<p>{{ item.parkCode}}</p>
+	<p>{{ item.tcmName }}</p>
+	{% endfor %}
+</body>
+</html>
