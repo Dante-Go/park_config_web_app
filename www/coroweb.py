@@ -73,7 +73,7 @@ def has_request_arg(fn):
 			raise ValueError('request parameter must be the last named parameter in function: %s%s' % (fn.__name__, str(sig)))
 	return found
 
-class RequestHanler(object):
+class RequestHandler(object):
 	def __init__(self, app, fn):
 		self._app = app
 		self.func = fn
