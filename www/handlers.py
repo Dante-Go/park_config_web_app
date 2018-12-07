@@ -20,3 +20,10 @@ async def index(request):
 		'__template__': 'test.html',
 		'config': config
 	}
+
+@get('/api/settings')
+async def api_get_settings():
+	settings = await ParkSettings.findByField('parkCode', '20000002')
+	if settings is None:
+		return dict(settings=())
+	return dict(settings=settings)
