@@ -14,7 +14,7 @@ configs = {
 		'host': '127.0.0.1',
 		'port': 3306,
 		'user': 'lk',
-		'password': 'liukai'
+		'password': 'liukai',
 		'database': 'DB_parking_config'
 	},
 	'session':{
